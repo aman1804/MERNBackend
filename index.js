@@ -3,9 +3,10 @@ const dotenv = require('dotenv');
 
 
 const app=express();
+app.use(express.json()); 
 dotenv.config();
 
-app.get('/',(req,resp)=>{
+app.get('/getdata',(req,resp)=>{
     resp.send('app is working fine');
 });
 
