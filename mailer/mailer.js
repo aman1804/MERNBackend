@@ -2,14 +2,14 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 
-const email=process.env.MAILER_EMAIL
-const password=process.env.MAILER_PASSWORD
+const email="thamboo20@outlook.com"
+const password="yebudaman18"
 // Create a transporter using your email service credentials
 const transporter = nodemailer.createTransport({
   service: 'outlook', // e.g., 'gmail'
   auth: {
-    user: email,
-    pass: password
+    user: "thamboo20@outlook.com",
+    pass: "yebudaman18"
   }
 });
 
