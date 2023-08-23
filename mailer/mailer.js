@@ -6,7 +6,7 @@ const email="thamboo20@outlook.com"
 const password="yebudaman18"
 // Create a transporter using your email service credentials
 const transporter = nodemailer.createTransport({
-  service: 'outlook',
+
   host: 'smtp.elasticemail.com',
   port: 2525,
   secure: true,
