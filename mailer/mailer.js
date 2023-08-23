@@ -20,7 +20,7 @@ const emailTemplate = fs.readFileSync(emailTemplatePath, 'utf-8');
 
 // Function to send the email
 const sendConfirmationEmail = async (user) => {
-    const verificationLink = `http://127.0.0.1:9000/user/verify/${user._id}`;
+    const verificationLink = `https://logic-vertix.onrender.com/user/verify/${user._id}`;
     const emailContent = emailTemplate.replace('{{verificationLink}}', verificationLink);
   
     const mailOptions = {
