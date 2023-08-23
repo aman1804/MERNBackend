@@ -161,7 +161,7 @@ const verifyUser = asyncHandler(async (req, res) => {
       console.log("User verified and updated:", verifiedUser);
     }
 
-    res.redirect("http://localhost:3000/");
+    res.redirect(process.env.FRONTEND_URL);
   } else {
     res.status(404);
     throw new Error("User Not Found");
