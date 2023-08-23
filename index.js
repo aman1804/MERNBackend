@@ -1,17 +1,26 @@
-const express=require('express');
-const dotenv = require('dotenv');
+const express = require('express')
+const app = express()
+const port = 9000
 const cors = require('cors')
+const multer = require('multer')
 
-const app=express();
-app.use(express.json()); 
-app.use(cors());
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images/')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  },
+})
 
-dotenv.config();
+const upload = multer({ storage: storage })
 
-app.get('/getdata',(req,resp)=>{
-    resp.send('app is working fine');
-});
+app.use(cors())
 
+app.post('/image', upload.single('file'), function (req, res) {
+  res.json({})
+})
 
-const PORT = process.env.PORT || 5000 ;
-app.listen(PORT,console.log(`app server is running on ${PORT}`));
+app.listen(port, () => {
+  console.log(`listening at http://localhost:${port}`)
+})
