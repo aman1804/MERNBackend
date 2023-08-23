@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+// const crypto = require('crypto');
 const generateToken = require('../utils/generateToken');
 
 
@@ -38,14 +38,12 @@ const userSchema = mongoose.Schema(
     }
   );
   
-  userSchema.methods.generatePasswordResetToken = function () {
-    const resetToken = generateToken(this._id); // Using the generateToken function
-    this.passwordResetToken = crypto
-      .createHash('sha256')
-      .update(resetToken)
-      .digest('hex');
-    this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // Token expires in 10 minutes
-    return resetToken;
+  userSchema.methods.generatePasswordResetToken = async function () {
+    const expiresIn = 600; // Token expires in 10 minutes (in seconds)
+    const resetToken = await generateToken(this._id,expiresIn); // Using the generateToken function
+    this.passwordResetToken = resetToken;
+    this.passwordResetExpires = Date.now() + expiresIn * 1000; // Convert to milliseconds
+    return await resetToken;
   };
   
   

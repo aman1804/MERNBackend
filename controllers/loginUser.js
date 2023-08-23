@@ -1,7 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../model/userModel.js");
 const Employee = require("../model/employeeModel.js")
-const crypto= require("crypto");
+const jwt = require('jsonwebtoken');
+// const crypto= require("crypto");
 const { sendResetEmail } = require("../mailer/mailer.js");
 
 const authUser = asyncHandler(async (req, res) => {
@@ -49,16 +50,22 @@ const authUser = asyncHandler(async (req, res) => {
   const resetPassword = asyncHandler (async (req, res) => {
     try {
       const token = req.params.token;
-      const { password } = req.body;
-      
-      const user = await User.findOne({
-        passwordResetToken: crypto.createHash('sha256').update(token).digest('hex'),
-        passwordResetExpires: { $gt: Date.now() },
-      });
-  
-      if (!user) {
-        return res.status(400).json({ message: 'Invalid or expired token.' });
-      }
+    const { password } = req.body;
+
+    // Verify and decode the token
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decodedToken) {
+      return res.status(400).json({ message: 'Invalid token.' });
+    }
+console.log(decodedToken)
+    // Find the user by ID from the decoded token
+    const user = await User.findById(decodedToken.id);
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found.' });
+    }
+
+
   
       user.password = password;
       user.passwordResetToken = undefined;
@@ -81,7 +88,7 @@ const authUser = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: 'User not found.' });
       }
   
-      const resetToken = user.generatePasswordResetToken();
+      const resetToken =await user.generatePasswordResetToken();
       await user.save();
   
       await sendResetEmail(user, resetToken);

@@ -2,12 +2,14 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 
+const email="thamboo20@outlook.com"
+const password="yebudaman18"
 // Create a transporter using your email service credentials
 const transporter = nodemailer.createTransport({
   service: 'outlook', // e.g., 'gmail'
   auth: {
-    user: process.env.MAILER_EMAIL,
-    pass: process.env.MAILER_PASSWORD
+    user: email,
+    pass: password
   }
 });
 
@@ -21,7 +23,7 @@ const sendConfirmationEmail = async (user) => {
     const emailContent = emailTemplate.replace('{{verificationLink}}', verificationLink);
   
     const mailOptions = {
-      from: 'thamboo20@outlook.com',
+      from: email,
       to: user.email,
       subject: 'Confirm Your Email',
       html: emailContent
@@ -41,7 +43,7 @@ const sendConfirmationEmail = async (user) => {
   const sendResetEmail = async (user, resetToken) => {
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
     const mailOptions = {
-      from: 'thamboo20@outlook.com',
+      from: email,
       to: user.email,
       subject: 'Password Reset',
       html: `Click <a href="${resetUrl}">here</a> to reset your password.`,
