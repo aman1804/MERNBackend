@@ -6,10 +6,14 @@ const email="thamboo20@outlook.com"
 const password="yebudaman18"
 // Create a transporter using your email service credentials
 const transporter = nodemailer.createTransport({
-  service: 'outlook', // e.g., 'gmail'
+  service: 'outlook',
+  host: 'smtp.elasticemail.com',
+  port: 2525,
+  secure: true,
+  // e.g., 'gmail'
   auth: {
-    user: "thamboo20@outlook.com",
-    pass: "yebudaman18"
+    user: "aman23ca005@satiengg.in",
+    pass: "3425B7B067EAC05A33C2400F0BEF11939D64"
   }
 });
 
@@ -23,7 +27,7 @@ const sendConfirmationEmail = async (user) => {
     const emailContent = emailTemplate.replace('{{verificationLink}}', verificationLink);
   
     const mailOptions = {
-      from: email,
+      from: "aman23ca005@satiengg.in",
       to: user.email,
       subject: 'Confirm Your Email',
       html: emailContent
@@ -43,7 +47,7 @@ const sendConfirmationEmail = async (user) => {
   const sendResetEmail = async (user, resetToken) => {
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
     const mailOptions = {
-      from: email,
+      from: "aman23ca005@satiengg.in",
       to: user.email,
       subject: 'Password Reset',
       html: `Click <a href="${resetUrl}">here</a> to reset your password.`,
