@@ -38,7 +38,7 @@ app.get("/getdata", (req, resp) => {
   resp.send("narayan app is working fine");
 });
 
-app.get("/getdata", (req, resp) => {
+app.get("/", (req, resp) => {
   resp.send("thamboo app is working fine");
 });
 
